@@ -1,9 +1,3 @@
-# -----------------------------------------------------------
-# Dummy Library Inventory Dataset
-# This is a list of dictionaries, simulating a simple database.
-# 'available_copies' tracks current stock.
-# 'return_date' is only set if 'available_copies' is 0 (fully checked out).
-# -----------------------------------------------------------
 
 library_inventory = [
     {
@@ -13,7 +7,7 @@ library_inventory = [
         "total_copies": 5,
         "available_copies": 2,
         "is_available": True,
-        "return_date": None  # Available, so return_date is None
+        "return_date": None  
     },
     {
         "book_id": "MATH305",
@@ -22,7 +16,7 @@ library_inventory = [
         "total_copies": 3,
         "available_copies": 0,
         "is_available": False,
-        "return_date": "2025-12-01"  # Fully checked out, expected return date
+        "return_date": "2025-12-01" 
     },
     {
         "book_id": "PHYS202",
@@ -44,25 +38,19 @@ library_inventory = [
     }
 ]
 
-# -----------------------------------------------------------
-# Librarian Functionality
-# -----------------------------------------------------------
 
 def update_book_availability(inventory, book_id, new_available_copies, return_date=None):
-    """
-    Function for the librarian to update the available copy count and set 
-    the expected return date if the book is fully checked out.
-    """
+    
     print(f"\n--- LIBRARIAN ACTION: Updating Book ID {book_id} ---")
     
-    # Input validation (basic check)
+   
     if new_available_copies < 0:
         print(" Error: Available copies cannot be negative.")
         return
 
     for book in inventory:
         if book["book_id"] == book_id:
-            # Ensure new count does not exceed total copies
+            
             if new_available_copies > book["total_copies"]:
                 print(f" Warning: New available count ({new_available_copies}) exceeds total copies ({book['total_copies']}). Setting to max.")
                 new_available_copies = book["total_copies"]
@@ -70,12 +58,12 @@ def update_book_availability(inventory, book_id, new_available_copies, return_da
             book["available_copies"] = new_available_copies
             
             if new_available_copies > 0:
-                # Book is available
+               
                 book["is_available"] = True
                 book["return_date"] = None
                 print(f" Success: Updated '{book['title']}'. {new_available_copies} copies are now available.")
             else:
-                # Book is fully checked out
+                
                 book["is_available"] = False
                 book["return_date"] = return_date
                 print(f"Success: Updated '{book['title']}'. Currently unavailable.")
@@ -87,25 +75,16 @@ def update_book_availability(inventory, book_id, new_available_copies, return_da
             
     print(f" Error: Book with ID '{book_id}' not found in the inventory.")
 
-# -----------------------------------------------------------
-# Student Functionality
-# -----------------------------------------------------------
-
 def check_book_status(inventory, title_query):
-    """
-    Function for students to check the availability status of a book.
-    Performs a case-insensitive, partial-match search on the title.
-    """
     
-    # Normalize query for case-insensitive search
     query = title_query.lower()
     
     found_book = None
     for book in inventory:
-        # Check if the search query is part of the book title
+        
         if query in book["title"].lower():
             found_book = book
-            break # Stop after finding the first match
+            break
             
     if found_book:
         print(f"\n--- STUDENT VIEW: Status for '{found_book['title']}' ---")
@@ -122,9 +101,7 @@ def check_book_status(inventory, title_query):
         print(f"\n Search failed: Book with title matching '{title_query}' not found.")
 
 
-# -----------------------------------------------------------
-# Interactive Command Line Interface (CLI)
-# -----------------------------------------------------------
+
 
 if __name__ == "__main__":
     print("***** Welcome to the College Library Availability System *****")
@@ -175,4 +152,5 @@ if __name__ == "__main__":
             break
             
         else:
+
             print("Invalid choice. Please enter 1, 2, or 3.")
